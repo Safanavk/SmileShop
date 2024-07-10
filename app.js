@@ -10,6 +10,7 @@ const nocache = require("nocache");
 const csrf = require("csurf");
 const expressLayouts = require("express-ejs-layouts");
 const otpGenerator = require("otp-generator");
+const passport = require("passport")
 const admin = require("firebase-admin");
 // const serviceAccount = require("./serviceAccount.json");
 
@@ -60,14 +61,18 @@ app.use(
   })
 );
 app.use(flash());
+
+// Google authentication using Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 // app.use(checkUserBlock);
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  if (req.session.user) {
-    res.locals.user = req.session.user;
-  }
+  res.locals.user = req.session.user || null;
+    res.locals.admin = req.session.admin || null;
   next();
 });
 

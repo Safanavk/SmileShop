@@ -7,6 +7,7 @@ const User = require("../model/userSchema");
 const { sendOtpEmail } = require("../helper/userVerificationHelper");
 const OTP = require("../model/otpSchema");
 
+
 module.exports = {
   getUserLogin: async (req, res) => {
     console.log(req.locals);
@@ -85,8 +86,9 @@ module.exports = {
       return res.redirect("/login");
     }
     req.session.user = user;
-    req.flash("success", "user successfully logged in");
-    return res.redirect("/");
+    // req.flash("success", "user successfully logged in");
+    // return res.redirect("/");
+    res.render("index",{user:req.session.user})
   },
   getForgetPassword: async (req, res) => {
     res.render("auth/user/forget-pass.ejs");
@@ -241,6 +243,13 @@ module.exports = {
       return res.redirect("/forget-otp-verify");
     }
   },
+
+
+
+
+
+
+  
   getAdminRegister: async (req, res) => {
     res.render("auth/admin/register.ejs");
   },

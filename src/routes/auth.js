@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const shopController = require("../controllers/shopController");
 const authController = require("../controllers/authController");
+const passport = require("../config/passport");
 
 const {
   isLoggedOut,
@@ -72,5 +73,12 @@ router
 router.get("/resend-otp", authController.resendOtp);
 
 router.get("/logout", authController.logout);
+
+// Google OAuth Routes
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+    req.session.user = req.user; // Ensure user is set in session
+    res.redirect('/');
+});
 
 module.exports = router;

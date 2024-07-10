@@ -4,7 +4,7 @@ const Categories = require("../model/categorySchema");
 module.exports = {
   getHome: async (req, res) => {
     let locals = {
-      title: "UrbanDecor - Home",
+      title: "Smile Shop - Home",
       description: "Home Page",
     };
     res.render("index", {
